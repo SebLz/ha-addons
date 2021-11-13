@@ -1,13 +1,13 @@
 # Disclaimer
 This addon communicates with MCZ Maestro pellet stove API. It is provided as is with no implied warranty or liability. Please use with care.
 
-## About the addon
+# About the addon
 Maestro technology uses a Websocket to communicate with the pellet stove. It is used by the MZC Maestro App and also by external thermostats.
 https://www.mcz.it/en/maestro-technology/
 
-This addon is simply embedding in a Home Assistant container the code from Chibald: https://github.com/Chibald/maestrogateway
+This addon is simply embeds the code from https://github.com/Chibald/maestrogateway in a Home Assistant container.
 
-## Usage
+# Usage
 After installing the addon, the pellet state and commands (as described on Chibald's Github) should be available through MQTT.
 Make sure the stove is reachable from the device on which HA is running. To do this, you'll typically need to use a wifi dongle on your HA device to connect to the stove AP or setup a second (client) wifi interface on your router.
 
