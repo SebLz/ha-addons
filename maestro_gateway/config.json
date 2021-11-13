@@ -1,6 +1,6 @@
 {
   "name": "Maestro Gateway",
-  "version": "1",
+  "version": "1.1",
   "slug": "maestro_gateway",
   "description": "MQTT Gateway to MCZ Maestro stoves' api",
   "url": "https://github.com/SebLz/ha-addons/tree/main/maestro_gateway",
