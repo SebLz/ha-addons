@@ -3,11 +3,12 @@
   "version": "1",
   "slug": "maestro_gateway",
   "description": "MQTT Gateway to MCZ Maestro stoves' api",
-  "url": "https://github.com/Chibald/maestrogateway",
+  "url": "https://github.com/SebLz/ha-addons/tree/main/maestro_gateway",
   "arch": ["armhf", "armv7", "aarch64", "amd64", "i386"],
   "startup": "application",
   "init": false,
   "boot": "auto",
+  "image": "ghcr.io/SebLz/{arch}-addon-maestro_gateway",
   "options": {
     "MQTT_ip": "core-mosquitto",
     "MQTT_port": "1883",
