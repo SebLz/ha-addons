@@ -1,0 +1,4 @@
+# https://developers.home-assistant.io/docs/add-ons/repository#repository-configuration
+name: Seb_Lz' Home Assistant add-on repository
+url: 'https://github.com/SebLz/ha-addons'
+maintainer: Seb_Lz

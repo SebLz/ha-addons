@@ -1,0 +1,37 @@
+{
+  "name": "Maestro Gateway",
+  "version": "1",
+  "slug": "maestro_gateway",
+  "description": "MQTT Gateway to MCZ Maestro stoves' api",
+  "url": "https://github.com/Chibald/maestrogateway",
+  "arch": ["armhf", "armv7", "aarch64", "amd64", "i386"],
+  "startup": "application",
+  "init": false,
+  "boot": "auto",
+  "options": {
+    "MQTT_ip": "core-mosquitto",
+    "MQTT_port": "1883",
+    "MQTT_authentication": "False",
+    "MQTT_user": "",
+    "MQTT_pass": "",
+    "MQTT_TOPIC_SUB": "Maestro/Command/",
+    "MQTT_TOPIC_PUB": "Maestro/",
+    "MQTT_PAYLOAD_TYPE": "TOPIC",
+    "WS_RECONNECTS_BEFORE_ALERT": "5",
+    "MCZip": "192.168.120.1",
+    "MCZport": "81"
+  },
+  "schema": {
+    "MQTT_ip": "str",
+    "MQTT_port": "str",
+    "MQTT_authentication": "str",
+    "MQTT_user": "str",
+    "MQTT_pass": "str",
+    "MQTT_TOPIC_SUB": "str",
+    "MQTT_TOPIC_PUB": "str",
+    "MQTT_PAYLOAD_TYPE": "str",
+    "WS_RECONNECTS_BEFORE_ALERT": "str",
+    "MCZip": "str",
+    "MCZport": "str"
+  }
+}
