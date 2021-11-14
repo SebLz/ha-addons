@@ -8,7 +8,7 @@
   "startup": "application",
   "init": false,
   "boot": "auto",
-  "image": "ghcr.io/SebLz/{arch}-addon-maestro_gateway",
+  "image": "ghcr.io/seblz/{arch}-addon-maestro_gateway",
   "options": {
     "MQTT_ip": "core-mosquitto",
     "MQTT_port": "1883",
