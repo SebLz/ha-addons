@@ -8,7 +8,7 @@ This addon simply embeds the code from https://github.com/Chibald/maestrogateway
 There are many areas of improvements, like support of [MQTT discovery](https://www.home-assistant.io/docs/mqtt/discovery/), better docs and type checking for options,... My time and expertise are limited but hopefully this is already helpful to some people and can be further improved by others :).
 
 # Installation
-You can install this addon after adding my repository url (https://github.com/SebLz/ha-addons) in your HA instance (you can follow [the official guide](https://www.home-assistant.io/common-tasks/os#installing-third-party-add-ons). Also, make sure the stove is reachable from the device on which HA is running. To do this, you'll typically need to use a wifi dongle on your HA device to connect to the stove AP or setup a second (client) wifi interface on your router.
+You can install this addon after adding my repository url (https://github.com/SebLz/ha-addons) in your HA instance (you can follow [the official guide](https://www.home-assistant.io/common-tasks/os#installing-third-party-add-ons). Also, make sure the stove is reachable from the device on which HA is running. To do this, you'll typically need to use a wifi dongle on your HA device to connect to the stove AP or setup a second (client) wifi interface on your router (can be done easily if you use OpenWRT for instance).
 
 # Configuration
 Available options enable user to set up [Chibald' maestrogateway config](https://github.com/Chibald/maestrogateway#configuration)
