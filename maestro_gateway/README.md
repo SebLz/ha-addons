@@ -4,17 +4,17 @@ This addon communicates with MCZ Maestro pellet stove API. It is provided as is 
 # About the addon
 Maestro technology uses a Websocket to communicate with the pellet stove. It is used by the [MCZ Maestro](https://www.mcz.it/en/maestro-technology/) App and also by external thermostats.
 After installing the addon, the pellet [state and commands](https://github.com/Chibald/maestrogateway#payload-type-topic) should be available through MQTT.
-This addon simply embeds the code from https://github.com/Chibald/maestrogateway in a Home Assistant container.
-There are many areas of improvements, like support of [MQTT discovery](https://www.home-assistant.io/docs/mqtt/discovery/), better docs and type checking for options,... My time and expertise are limited but hopefully this is already helpful to some people and can be further improved by others :).
+This addon  embeds the code from https://github.com/Chibald/maestrogateway (cloud connection) and https://github.com/pipolaq/maestro (direct/local connection) in a Home Assistant container.
 
 # Installation
-You can install this addon after adding my repository url (https://github.com/SebLz/ha-addons) in your HA instance (you can follow [the official guide](https://www.home-assistant.io/common-tasks/os#installing-third-party-add-ons). Also, make sure the stove is reachable from the device on which HA is running. To do this, you'll typically need to use a wifi dongle on your HA device to connect to the stove AP or setup a second (client) wifi interface on your router (can be done easily if you use OpenWRT for instance).
+You can install this addon after adding my repository url (https://github.com/SebLz/ha-addons) in your HA instance (you can follow [the official guide](https://www.home-assistant.io/common-tasks/os#installing-third-party-add-ons). If you want to connect locally to the stove, make sure it is reachable from the device on which HA is running. To do this, you'll typically need to use a wifi dongle on your HA device to connect to the stove AP or setup a second (client) wifi interface on your router (can be done easily if you use OpenWRT for instance).
 
 # Configuration
 Available options enable user to set up [Chibald' maestrogateway config](https://github.com/Chibald/maestrogateway#configuration)
+You can choose between [Chibald's local connection script](https://github.com/Chibald/maestrogateway#configuration) and [Pipolaq's local connection script](https://github.com/pipolaq/maestro) with the first option : "USE_MCZ_CLOUD".
 
 # Usage
-Examples of code you can use in you configuration.yaml:
+Examples of code you can use in you configuration.yaml (in this case using Chibald's script):
 
 Sensor to display stove state:
 ```
@@ -90,12 +90,15 @@ Switch (power on/off)
   payload_on: 1
   payload_off: 0
 ```
+# Improvements
+There are many areas of improvements, like support of [MQTT discovery](https://www.home-assistant.io/docs/mqtt/discovery/), better docs and type checking for options, merging both python scripts into one and use the same mqtt format... My time and expertise are limited but hopefully this is already helpful to some people and can be further improved by others :).
 
 # Credits
-All credits go to Chibald and Anthony-55 who created the Python scripts that I'm embedding in this Home Assistant addon.
+All credits go to Anthony-55 who created the original Python script but also to Chibald and Pipolaq who adapted it in 2 different versions that I'm embedding in this Home Assistant addon.
 You can visit their Github repositories there:
-- https://github.com/Chibald/maestrogateway
 - https://github.com/Anthony-55/maestro
+- https://github.com/Chibald/maestrogateway
+- https://github.com/pipolaq/maestro
 
 The script was initially created for "Jeedom", a home automation solution similar to HA. Discussions about this script can be found there (French):
 - https://community.jeedom.com/t/mcz-maestro-et-jeedom/6159
