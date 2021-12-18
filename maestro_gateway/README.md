@@ -14,9 +14,9 @@ Available options enable user to set up [Chibald' maestrogateway config](https:/
 You can choose between [Chibald's local connection script](https://github.com/Chibald/maestrogateway#configuration) and [Pipolaq's local connection script](https://github.com/pipolaq/maestro) with the first option : "USE_MCZ_CLOUD".
 
 # Usage
-Examples of code you can use in you configuration.yaml (in this case using Chibald's script):
-
-Sensor to display stove state:
+Examples of code you can use in you configuration.yaml :
+## Using local script
+[Sensor](https://www.home-assistant.io/integrations/sensor.mqtt/) to display stove state:
 ```
 - platform: mqtt
     name: PoelePellets
@@ -73,7 +73,7 @@ Sensor to display stove state:
       {{ mapper[state] if state in mapper else 'Inconnu' }}
 ```
 
-Switch (power on/off)
+[Switch](https://www.home-assistant.io/integrations/switch.mqtt/) (power on/off)
 ```
 - platform: mqtt
   name: PoelePellets
@@ -89,6 +89,16 @@ Switch (power on/off)
   command_topic: "Maestro/Command/Power"
   payload_on: 1
   payload_off: 0
+```
+
+## Using cloud script
+[Sensor](https://www.home-assistant.io/integrations/sensor.mqtt/) with all attributes
+```
+- platform: mqtt
+  name: Maestro
+  state_topic: "Maestro/State"
+  value_template: "{{ value_json['Etat du poêle'] }}"
+  json_attributes_topic: "Maestro/State"
 ```
 # Improvements
 There are many areas of improvements, like support of [MQTT discovery](https://www.home-assistant.io/docs/mqtt/discovery/), better docs and type checking for options, merging both python scripts into one and use the same mqtt format... My time and expertise are limited but hopefully this is already helpful to some people and can be further improved by others :).
