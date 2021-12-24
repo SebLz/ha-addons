@@ -14,9 +14,15 @@ Available options enable user to set up [Chibald' maestrogateway config](https:/
 You can choose between [Chibald's local connection script](https://github.com/Chibald/maestrogateway#configuration) and [Pipolaq's local connection script](https://github.com/pipolaq/maestro) with the first option : "USE_MCZ_CLOUD".
 
 # Usage
-Examples of code you can use in you configuration.yaml :
+Examples of code you can use in you configuration.yaml assuming you have the addon parameters set as follows :
+```
+"MQTT_TOPIC_SUB": "Maestro/Command/"
+"MQTT_TOPIC_PUB": "Maestro/"
+"MQTT_PAYLOAD_TYPE": "TOPIC"
+```
+
 ## Using local script
-[Sensor](https://www.home-assistant.io/integrations/sensor.mqtt/) to display stove state:
+[MQTT Sensor](https://www.home-assistant.io/integrations/sensor.mqtt/) to display stove state:
 ```
 - platform: mqtt
     name: PoelePellets
@@ -73,7 +79,7 @@ Examples of code you can use in you configuration.yaml :
       {{ mapper[state] if state in mapper else 'Inconnu' }}
 ```
 
-[Switch](https://www.home-assistant.io/integrations/switch.mqtt/) (power on/off)
+[MQTT Switch](https://www.home-assistant.io/integrations/switch.mqtt/) (power on/off)
 ```
 - platform: mqtt
   name: PoelePellets
@@ -92,7 +98,13 @@ Examples of code you can use in you configuration.yaml :
 ```
 
 ## Using cloud script
-[Sensor](https://www.home-assistant.io/integrations/sensor.mqtt/) with all attributes
+Examples of code you can use in you configuration.yaml assuming you have the addon parameters set as follows :
+```
+"MQTT_TOPIC_SUB": "Maestro/Command"
+"MQTT_TOPIC_PUB": "Maestro/State"
+```
+
+[MQTT Sensor](https://www.home-assistant.io/integrations/sensor.mqtt/) with all attributes
 ```
 - platform: mqtt
   name: Maestro
@@ -100,6 +112,25 @@ Examples of code you can use in you configuration.yaml :
   value_template: "{{ value_json['Etat du poêle'] }}"
   json_attributes_topic: "Maestro/State"
 ```
+
+All possible commands are descibed in the [commands.py](https://github.com/SebLz/ha-addons/blob/main/maestro_gateway/rootfs/maestro/local/commands.py) file. Here is an example below for turning On/Off the stove with a [MQTT Switch](https://www.home-assistant.io/integrations/switch.mqtt/) (command id: 34, type 'onoff40' meaning on has '1',  off has value '40'):
+```
+- platform: mqtt
+  name: Maestro
+  state_topic: "Maestro/State"
+  value_template: >
+    {% if value_json['Etat du poêle'] == 'Eteint' %}
+    off
+    {% else %}
+    on
+    {% endif %}
+  state_on: "on"
+  state_off: "off"
+  command_topic: "Maestro/Command"
+  payload_on: "34,1"
+  payload_off: "34,40"
+```
+
 # Improvements
 There are many areas of improvements, like support of [MQTT discovery](https://www.home-assistant.io/docs/mqtt/discovery/), better docs and type checking for options, merging both python scripts into one and use the same mqtt format... My time and expertise are limited but hopefully this is already helpful to some people and can be further improved by others :).
 
