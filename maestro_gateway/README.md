@@ -114,7 +114,7 @@ Examples of code you can use in you configuration.yaml assuming you have the add
   json_attributes_topic: "Maestro/State"
 ```
 
-All possible commands are descibed in the [commands.py](https://github.com/SebLz/ha-addons/blob/main/maestro_gateway/rootfs/maestro/local/commands.py) file. Here is an example below for turning On/Off the stove with a [MQTT Switch](https://www.home-assistant.io/integrations/switch.mqtt/) (command id: 34, type 'onoff40' meaning on has '1',  off has value '40'):
+All possible commands are descibed in the [commands.py](https://github.com/SebLz/ha-addons/blob/main/maestro_gateway/rootfs/maestro/local/commands.py) file. Here is an example below for turning On/Off the stove with a [MQTT Switch](https://www.home-assistant.io/integrations/switch.mqtt/) (command id: 34, type 'onoff40' meaning on = '1', off = '40'):
 ```
 - platform: mqtt
   name: Maestro
