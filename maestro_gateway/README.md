@@ -14,6 +14,8 @@ Available options enable user to set up [Chibald' maestrogateway config](https:/
 You can choose between [Chibald's local connection script](https://github.com/Chibald/maestrogateway#configuration) and [Pipolaq's local connection script](https://github.com/pipolaq/maestro) with the first option : "USE_MCZ_CLOUD".
 
 # Usage
+
+## Using local script
 Examples of code you can use in you configuration.yaml assuming you have the addon parameters set as follows :
 ```
 "MQTT_TOPIC_SUB": "Maestro/Command/"
@@ -21,7 +23,6 @@ Examples of code you can use in you configuration.yaml assuming you have the add
 "MQTT_PAYLOAD_TYPE": "TOPIC"
 ```
 
-## Using local script
 [MQTT Sensor](https://www.home-assistant.io/integrations/sensor.mqtt/) to display stove state:
 ```
 - platform: mqtt
