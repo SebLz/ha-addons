@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.2
+
+- Add fan2 & fan3 in cloud script (thanks @elzinc85)
+
 ## 2.1
 
 - Update default config so that it works with the cloud script
