@@ -2,7 +2,8 @@
 
 ## 2.3
 
-- Add missing state variables and remove accents in cloud script
+- Add missing state variables in cloud script
+- !!! BREAKING CHANGE !!! : remove all accents in state variables in cloud script => please adapt your template sensors/switches accordingly
 
 ## 2.2
 
