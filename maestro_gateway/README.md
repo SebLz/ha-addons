@@ -110,7 +110,7 @@ Examples of code you can use in you configuration.yaml assuming you have the add
 - platform: mqtt
   name: Maestro
   state_topic: "Maestro/State"
-  value_template: "{{ value_json['Etat du poêle'] }}"
+  value_template: "{{ value_json['Etat du poele'] }}"
   json_attributes_topic: "Maestro/State"
 ```
 
@@ -120,7 +120,7 @@ All possible commands are descibed in the [commands.py](https://github.com/SebLz
   name: Maestro
   state_topic: "Maestro/State"
   value_template: >
-    {% if value_json['Etat du poêle'] == 'Eteint' %}
+    {% if value_json['Etat du poele'] == 'Eteint' %}
     off
     {% else %}
     on
