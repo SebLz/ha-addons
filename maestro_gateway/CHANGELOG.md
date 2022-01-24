@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.3
+
+- Add missing state variables in cloud script
+
 ## 2.2
 
 - Add fan2 & fan3 in cloud script (thanks @elzinc85)
