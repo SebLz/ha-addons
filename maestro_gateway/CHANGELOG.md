@@ -2,7 +2,7 @@
 
 ## 2.3
 
-- Add missing state variables in cloud script
+- Add missing state variables and remove accents in cloud script
 
 ## 2.2
 
