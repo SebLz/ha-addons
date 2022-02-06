@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.4
+
+- Cloud script: Code improvement + check if connection is still alive, thanks @SkyPhilHome (https://github.com/pipolaq/maestro/pull/4)
+
 ## 2.3
 
 - Add missing state variables in cloud script
