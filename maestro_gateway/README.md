@@ -4,14 +4,14 @@ This addon communicates with MCZ Maestro pellet stove API. It is provided as is 
 # About the addon
 Maestro technology uses a Websocket to communicate with the pellet stove. It is used by the [MCZ Maestro](https://www.mcz.it/en/maestro-technology/) App and also by external thermostats.
 After installing the addon, the pellet [state and commands](https://github.com/Chibald/maestrogateway#payload-type-topic) should be available through MQTT.
-This addon  embeds the code from https://github.com/Chibald/maestrogateway (cloud connection) and https://github.com/pipolaq/maestro (direct/local connection) in a Home Assistant container.
+This addon  embeds the code from https://github.com/Chibald/maestrogateway (local connection) and https://github.com/pipolaq/maestro (cloud connection) in a Home Assistant container.
 
 # Installation
 You can install this addon after adding my repository url (https://github.com/SebLz/ha-addons) in your HA instance (you can follow [the official guide](https://www.home-assistant.io/common-tasks/os#installing-third-party-add-ons). If you want to connect locally to the stove, make sure it is reachable from the device on which HA is running. To do this, you'll typically need to use a wifi dongle on your HA device to connect to the stove AP or setup a second (client) wifi interface on your router (can be done easily if you use OpenWRT for instance).
 
 # Configuration
 Available options enable user to set up [Chibald' maestrogateway config](https://github.com/Chibald/maestrogateway#configuration)
-You can choose between [Chibald's local connection script](https://github.com/Chibald/maestrogateway#configuration) and [Pipolaq's local connection script](https://github.com/pipolaq/maestro) with the first option : "USE_MCZ_CLOUD".
+You can choose between [Chibald's local connection script](https://github.com/Chibald/maestrogateway#configuration) and [Pipolaq's cloud connection script](https://github.com/pipolaq/maestro) with the first option : "USE_MCZ_CLOUD".
 
 # Usage
 
