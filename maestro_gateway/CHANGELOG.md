@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.5
+
+- Update python packages to fix connection errors (cf. https://github.com/pipolaq/maestro/issues/5 & https://github.com/SebLz/ha-addons/issues/37)
+
 ## 2.4
 
 - Cloud script: Code improvement + check if connection is still alive, thanks @SkyPhilHome (https://github.com/pipolaq/maestro/pull/4)
