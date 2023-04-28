@@ -11,6 +11,7 @@ _MQTT_TOPIC_SUB = '$(bashio::config 'MQTT_TOPIC_SUB')'
 _MQTT_TOPIC_PUB = '$(bashio::config 'MQTT_TOPIC_PUB')'
 _MQTT_PAYLOAD_TYPE = '$(bashio::config 'MQTT_PAYLOAD_TYPE')'
 _WS_RECONNECTS_BEFORE_ALERT = $(bashio::config 'WS_RECONNECTS_BEFORE_ALERT')
+_REFRESH_INTERVAL = $(bashio::config 'REFRESH_INTERVAL')
 _MCZip = '$(bashio::config 'MCZip')'
 _MCZport = '$(bashio::config 'MCZport')'
 _VERSION = '1.03'

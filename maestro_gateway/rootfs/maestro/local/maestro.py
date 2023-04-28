@@ -35,6 +35,7 @@ from _config_ import _WS_RECONNECTS_BEFORE_ALERT
 from _config_ import _MQTT_port
 from _config_ import _MQTT_ip
 from _config_ import _VERSION
+from _config_ import _REFRESH_INTERVAL
 
 from commands import MaestroCommand, get_maestro_command, maestrocommandvalue_to_websocket_string, MaestroCommandValue, MAESTRO_COMMANDS
 
@@ -69,7 +70,7 @@ class SetQueue(queue.Queue):
         self.all_items.remove(item)
         return item
 
-get_stove_info_interval = 15.0
+get_stove_info_interval = _REFRESH_INTERVAL
 websocket_connected = False
 socket_reconnect_count = 0
 client = None
