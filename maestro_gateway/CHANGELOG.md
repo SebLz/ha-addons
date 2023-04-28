@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.6
+
+- Add a parameter _REFRESH_INTERVAL defining how often the local API is queried for updates
+
 ## 2.5
 
 - Update python packages to fix connection errors (cf. https://github.com/pipolaq/maestro/issues/5 & https://github.com/SebLz/ha-addons/issues/37)
