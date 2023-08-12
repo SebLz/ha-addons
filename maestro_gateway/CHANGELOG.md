@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.6.1
+
+- Update all python packages and alpine version to solve build issues with new version of HA
+
 ## 2.6
 
 - Add a parameter _REFRESH_INTERVAL defining how often the local API is queried for updates
