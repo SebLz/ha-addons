@@ -1,5 +1,10 @@
 # Changelog
 
+## 2.7
+
+- Ensures that the client automatically tries to resubscribe to the MQTT topic whenever it reconnects after an unexpected disconnection (addressing https://github.com/SebLz/ha-addons/issues/53)
+- Update HA dependencies
+
 ## 2.6.1
 
 - Update all python packages and alpine version to solve build issues with new version of HA

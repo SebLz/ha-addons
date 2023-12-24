@@ -81,8 +81,13 @@ class PileFifo(object):
 
 
 def on_connect_mqtt(client, userdata, flags, rc):
-    logger.info("Connecté au broker MQTT avec le code : " + str(rc))
+    logger.info("Connected to MQTT broker with code: " + str(rc))
+    # Resubscribe to the MQTT topic on reconnection
+    client.subscribe(_MQTT_TOPIC_SUB, qos=1)
 
+def on_disconnect_mqtt(client, userdata, rc):
+    if rc != 0:
+        logger.warning("Unexpected MQTT disconnection. Will auto-reconnect")
 
 def on_message_mqtt(client, userdata, message):
     logger.info('Message MQTT reçu : ' + str(message.payload.decode()))
@@ -234,9 +239,8 @@ if _MQTT_authentication:
     client.username_pw_set(username=_MQTT_user, password=_MQTT_pass)
 client.on_connect = on_connect_mqtt
 client.on_message = on_message_mqtt
+client.on_disconnect = on_disconnect_mqtt
 client.connect(_MQTT_ip, _MQTT_port)
 client.loop_start()
-logger.info('Souscription au topic ' + str(_MQTT_TOPIC_SUB) + ' avec un Qos=1')
-client.subscribe(_MQTT_TOPIC_SUB, qos=1)
 
 thread.start_new_thread(receive, ())
