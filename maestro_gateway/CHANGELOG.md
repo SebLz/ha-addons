@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.8
+
+- Implement GPT-4 translations for the cloud script (addressing https://github.com/SebLz/ha-addons/issues/55). Locale can be set using the Cloud_Locale option. Currently supported: nl, fr, en, de, es, it.
+
 ## 2.7
 
 - Ensures that the client automatically tries to resubscribe to the MQTT topic whenever it reconnects after an unexpected disconnection (addressing https://github.com/SebLz/ha-addons/issues/53)

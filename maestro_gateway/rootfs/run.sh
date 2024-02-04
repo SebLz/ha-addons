@@ -36,6 +36,12 @@ _MCZ_App_URL = '$(bashio::config 'MCZ_App_URL')'
 _VERSION = '1.5'
 " > /maestro/cloud/_config_.py
 
+# Make _data_.py point to the chosen translation
+echo "
+from translations.data_$(bashio::config 'Cloud_Locale') import RecuperoInfo as RecuperoInfo_translated
+RecuperoInfo = RecuperoInfo_translated
+" > /maestro/cloud/_data_.py
+
 if bashio::config.true 'USE_MCZ_CLOUD'; then
     bashio::log.info "Launching maestro cloud connection plugin"
     python3 /maestro/cloud/maestro.py
