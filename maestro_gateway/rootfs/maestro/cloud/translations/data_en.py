@@ -6,7 +6,7 @@ Correspondence tables
     Rank 1 corresponds to the title published on the broker
     Rank 2 (optional) allows to replace the code of the frame by a corresponding text information
 '''
-RecoveryInfo=[
+RecuperoInfo=[
 	[1,"Stove status",[
 						[0, "Off"],
 						[1, "Stove control cold / hot"],
