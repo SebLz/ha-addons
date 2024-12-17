@@ -4,6 +4,8 @@ MCZ Maestro Command class
 These are the supported commands to be set via websocket
 '''
 
+from datetime import datetime
+
 class MaestroCommand(object):
     """Maestro Command. Consists of a readable name., a websocket ID and a command type."""
     def __init__(self, name, id, commandtype, commandcategory):
@@ -39,6 +41,7 @@ MAESTRO_COMMANDS.append(MaestroCommand('Fan_State', 37, 'int', 'Basic'))# 0, 1, 
 MAESTRO_COMMANDS.append(MaestroCommand('DuctedFan1', 38, 'int', 'Basic'))# 0, 1, 2, 3 ,4,  5 ,6
 MAESTRO_COMMANDS.append(MaestroCommand('DuctedFan2', 39, 'int', 'Basic'))# 0, 1, 2, 3 ,4,  5 ,6
 MAESTRO_COMMANDS.append(MaestroCommand('Control_Mode', 40, 'onoff', 'Basic')) # 0 = Auto , 1 = Manual
+MAESTRO_COMMANDS.append(MaestroCommand('Profile', 149, 'int', 'Basic'))
 # Untested, proceed with caution
 MAESTRO_COMMANDS.append(MaestroCommand('Feeding_Screw', 34, '49', 'Basic')) # 49 as parameter to socket for feeding screw activiation
 MAESTRO_COMMANDS.append(MaestroCommand('Celsius_Fahrenheit', 49, 'int', 'Basic'))
@@ -64,6 +67,9 @@ MAESTRO_COMMANDS.append(MaestroCommand('DuctedFan2', 7, 'percentage', 'Diagnosti
 MAESTRO_COMMANDS.append(MaestroCommand('Pump_PWM', 8, 'percentage', 'Diagnostics'))
 MAESTRO_COMMANDS.append(MaestroCommand('3wayvalve', 9, 'onoff', 'Diagnostics'))
 
+# Datetime commands
+MAESTRO_COMMANDS.append(MaestroCommand('Set_DateTime', 0, 'datetime', 'SetDateTime')) # The value to the command has to be given as string in the format - > "ddmmYYYYHHmm", e.g. "171220201636" for the date 17/12/2020 04:36 pm.
+
 def get_maestro_command(commandname):
     """Return Maestro command from the command list by name"""
     i = 0
@@ -78,7 +84,18 @@ def maestrocommandvalue_to_websocket_string(maestrocommandval):
     write = ""
     maestrocommand = maestrocommandval.command
     if maestrocommand.commandcategory == "GetInfo":
-        write = "C|RecuperoInfo"           
+        write = "C|RecuperoInfo"      
+    elif maestrocommand.commandcategory == "SetDateTime":
+        try:
+            if (maestrocommandval.value == "NOW"):
+                now = datetime.now()
+                write = "C|SalvaDataOra|" + str(now.strftime("%d%m%Y%H%M"))
+            else:    
+                # Check if value is a valid date else exception is thrown
+                datetime.strptime(maestrocommandval.value, "%d%m%Y%H%M")
+                write = "C|SalvaDataOra|" + str(maestrocommandval.value)
+        except:
+            pass     
     else:
         if maestrocommand.commandcategory == "Diagnostics":
             write = "C|Diagnostica|"

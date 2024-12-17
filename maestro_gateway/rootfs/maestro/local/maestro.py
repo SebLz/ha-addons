@@ -78,7 +78,7 @@ old_connection_status = None
 
 # Logging
 logger = logging.getLogger(__name__)
-logger.setLevel(logging.DEBUG)
+logger.setLevel(logging.INFO)
 formatter = logging.Formatter('%(asctime)s :: %(name)s :: %(levelname)s :: %(message)s')
 if systemd_available and psutil.Process(os.getpid()).ppid() == 1:
     # We are using systemd
@@ -86,12 +86,12 @@ if systemd_available and psutil.Process(os.getpid()).ppid() == 1:
     logger.addHandler(journald_handler)
 else:
     file_handler = RotatingFileHandler('activity.log', 'a', 1000000, 1)
-    file_handler.setLevel(logging.DEBUG)
+    file_handler.setLevel(logging.INFO)
     file_handler.setFormatter(formatter)
     logger.addHandler(file_handler)
 stream_handler = logging.StreamHandler(sys.stdout)
 stream_handler.setFormatter(formatter)
-stream_handler.setLevel(logging.DEBUG)
+stream_handler.setLevel(logging.INFO)
 logger.addHandler(stream_handler)
 
 CommandQueue = SetQueue()
@@ -102,6 +102,17 @@ logger.info('Starting Maestro Daemon')
 
 def on_connect_mqtt(client, userdata, flags, rc):
     logger.info("MQTT: Connected to broker. " + str(rc))
+    if _MQTT_PAYLOAD_TYPE == 'TOPIC':
+        logger.info('MQTT: Subscribed to topic "' + str(_MQTT_TOPIC_SUB) + '#"')
+        client.subscribe(_MQTT_TOPIC_SUB+'#', qos=1)
+        publish_availabletopics()
+    else:
+        logger.info('MQTT: Subscribed to topic "' + str(_MQTT_TOPIC_SUB) + '"')
+        client.subscribe(_MQTT_TOPIC_SUB, qos=1)
+
+def on_disconnect_mqtt(client, userdata, rc):
+    if rc != 0:
+        logger.info("MQTT: Unexpected disconnection -> try to reconnect...")
 
 def on_message_mqtt(client, userdata, message):
     try:
@@ -111,21 +122,21 @@ def on_message_mqtt(client, userdata, message):
         if _MQTT_PAYLOAD_TYPE == 'TOPIC':
             topic = str(message.topic)
             command = topic[str(topic).rindex('/')+1:]
-            logger.info(f"Command topic received: {topic}")
+            logger.debug(f"Command topic received: {topic}")
             maestrocommand = get_maestro_command(command)
             cmd_value = payload
         else:
-            logger.info(f"MQTT: Message received: {payload}")
+            logger.debug(f"MQTT: Message received: {payload}")
             res = json.loads(payload)
             maestrocommand = get_maestro_command(res["Command"])
             cmd_value = res["Value"]
         if maestrocommand.name == "Unknown":
-            logger.info(f"Unknown Maestro Command Received. Ignoring. {payload}")
+            logger.debug(f"Unknown Maestro Command Received. Ignoring. {payload}")
         elif maestrocommand.name == "Refresh":
-            logger.info('Clearing the message cache')
+            logger.debug('Clearing the message cache')
             MaestroInfoMessageCache.clear()
         else:
-            logger.info('Queueing Command ' + maestrocommand.name + ' ' + str(payload))
+            logger.debug('Queueing Command ' + maestrocommand.name + ' ' + str(payload))
             CommandQueue.put(MaestroCommandValue(maestrocommand, cmd_value))
     except Exception as e: # work on python 3.x
             logger.error('Exception in on_message_mqtt: '+ str(e))
@@ -145,7 +156,7 @@ def send_connection_status_message(message):
             for key in json_dictionary:
                 logger.info('MQTT: publish to Topic "' + str(_MQTT_TOPIC_PUB + key) +
                         '", Message : ' + str(json_dictionary[key]))
-                client.publish(_MQTT_TOPIC_PUB+'/'+key, json_dictionary[key], 1)
+                client.publish(_MQTT_TOPIC_PUB+key, json_dictionary[key], 1)
         else:
             client.publish(_MQTT_TOPIC_PUB, json.dumps(message), 1)
         old_connection_status = message
@@ -177,13 +188,15 @@ def on_message(ws, message):
     message_array = message.split("|")
     if message_array[0] == MaestroMessageType.Info.value:
         process_info_message(message)
+    elif message_array[0] == MaestroMessageType.StringData.value:
+        logger.info('Date Time Set ' + str(message_array[1]))
     else:
         logger.info('Unsupported message type received !')
 
 def on_error(ws, error):
     logger.info(error)
 
-def on_close(ws):
+def on_close(ws, close_status_code, close_msg):
     logger.info('Websocket: Disconnected')
     global websocket_connected
     websocket_connected = False
@@ -198,9 +211,13 @@ def on_open(ws):
         for i in range(360*4):
             time.sleep(0.25)
             while not CommandQueue.empty():
-                cmd = maestrocommandvalue_to_websocket_string(CommandQueue.get())
-                logger.info("Websocket: Send " + str(cmd))
-                ws.send(cmd)        
+                command = CommandQueue.get()
+                cmd = maestrocommandvalue_to_websocket_string(command)
+                if cmd != "":
+                    logger.info("Websocket: Send " + str(cmd))
+                    ws.send(cmd)
+                else:
+                    logger.error(f"Invalid command: {command.name} Value: {command.value}")
         logger.info('Closing Websocket Connection')
         ws.close()
     thread.start_new_thread(run, ())
@@ -209,21 +226,15 @@ def start_mqtt():
     global client
     logger.info('Connection in progress to the MQTT broker (IP:' +
                 _MQTT_ip + ' PORT:'+str(_MQTT_port)+')')
-    client = mqtt.Client()
+    client = mqtt.Client(client_id="MCZ_PelletStove")
     if _MQTT_authentication:
         print('mqtt authentication enabled')
         client.username_pw_set(username=_MQTT_user, password=_MQTT_pass)
     client.on_connect = on_connect_mqtt
+    client.on_disconnect = on_disconnect_mqtt
     client.on_message = on_message_mqtt
     client.connect(_MQTT_ip, _MQTT_port)
     client.loop_start()
-    if _MQTT_PAYLOAD_TYPE == 'TOPIC':
-        logger.info('MQTT: Subscribed to topic "' + str(_MQTT_TOPIC_SUB) + '#"')
-        client.subscribe(_MQTT_TOPIC_SUB+'#', qos=1)
-        publish_availabletopics()
-    else:
-        logger.info('MQTT: Subscribed to topic "' + str(_MQTT_TOPIC_SUB) + '"')
-        client.subscribe(_MQTT_TOPIC_SUB, qos=1)   
 
 def publish_availabletopics():  
     logger.info(_MQTT_TOPIC_PUB + 'state')  
