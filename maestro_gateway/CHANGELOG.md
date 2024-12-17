@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.9
+
+- Update to chibald's latest version (preserving REFRESH_INTERVAL param)) (thanks @20bart - cf. https://github.com/SebLz/ha-addons/pull/65)
+
 ## 2.8
 
 - Implement GPT-4 translations for the cloud script (addressing https://github.com/SebLz/ha-addons/issues/55). Locale can be set using the Cloud_Locale option. Currently supported: nl, fr, en, de, es, it.
